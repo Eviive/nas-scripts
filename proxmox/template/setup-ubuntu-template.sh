@@ -25,9 +25,9 @@ apt update
 apt -y full-upgrade
 apt install -y qemu-guest-agent
 
-sudo truncate -s 0 /etc/machine-id
-sudo rm /var/lib/dbus/machine-id
-sudo ln -s /var/lib/dbus/machine-id /etc/machine-id
+truncate -s 0 /etc/machine-id
+rm /var/lib/dbus/machine-id
+ln -s /etc/machine-id /var/lib/dbus/machine-id
 
 logrotate -f /etc/logrotate.conf
 
@@ -52,8 +52,5 @@ rm -rf /var/tmp/*
 
 apt clean
 apt autoremove
-
-history -c
-history -w
 
 rm $this_file
