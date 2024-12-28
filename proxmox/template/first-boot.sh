@@ -1,6 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
-set -euo pipefail
+set -uo pipefail
+trap 's=$?; echo "$0: Error on line "$LINENO": $BASH_COMMAND"; exit $s' ERR
+IFS=$'\n\t'
 
 this_file=${0##*/}
 
