@@ -15,7 +15,7 @@ cd ~
 
 first_boot_script=first-boot.sh
 this_user=$SUDO_USER
-wget https://github.com/Eviive/nas-utils/raw/main/proxmox/template/$first_boot_script
+wget https://raw.githubusercontent.com/Eviive/nas-scripts/main/proxmox/template/$first_boot_script
 chmod +x $first_boot_script
 chown $this_user:$this_user $first_boot_script
 
