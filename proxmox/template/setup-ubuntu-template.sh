@@ -19,7 +19,7 @@ wget https://raw.githubusercontent.com/Eviive/nas-scripts/main/proxmox/template/
 chmod +x $first_boot_script
 chown $this_user:$this_user $first_boot_script
 
-(crontab -l 2>/dev/null; echo "@reboot $TARGET_SCRIPT") | crontab -
+(crontab -l 2>/dev/null; echo "@reboot $(realpath $first_boot_script)") | crontab -
 
 apt update
 apt -y full-upgrade
