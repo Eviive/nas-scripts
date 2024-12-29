@@ -56,3 +56,5 @@ apt clean
 apt autoremove
 
 rm $0
+
+echo -e "\nFinished setup, clean the history and power off the machine...\n"
