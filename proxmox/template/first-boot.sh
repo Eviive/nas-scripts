@@ -14,7 +14,7 @@ fi
 apt update
 apt -y full-upgrade
 
-crontab -l | grep -v $0 | crontab -
+crontab -l | grep -v $0 || true | crontab -
 
 rm $0
 
