@@ -4,8 +4,6 @@ set -uo pipefail
 trap 's=$?; echo "$0: Error on line "$LINENO": $BASH_COMMAND"; exit $s' ERR
 IFS=$'\n\t'
 
-this_file=${0##*/}
-
 id
 
 if [ `id -u` -ne 0 ]; then
@@ -16,9 +14,9 @@ fi
 apt update
 apt -y full-upgrade
 
-crontab -l | grep -v $(realpath $this_file) | crontab -
+crontab -l | grep -v $0 | crontab -
 
-rm $this_file
+rm $0
 
 echo "\nFinished first boot, rebooting...\n"
 reboot

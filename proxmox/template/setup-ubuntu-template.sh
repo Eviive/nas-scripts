@@ -4,8 +4,6 @@ set -uo pipefail
 trap 's=$?; echo "$0: Error on line "$LINENO": $BASH_COMMAND"; exit $s' ERR
 IFS=$'\n\t'
 
-this_file=${0##*/}
-
 id
 
 if [ `id -u` -ne 0 ]; then
@@ -21,7 +19,7 @@ wget https://raw.githubusercontent.com/Eviive/nas-scripts/main/proxmox/template/
 chmod +x $first_boot_script
 chown $this_user:$this_user $first_boot_script
 
-(crontab -l 2>/dev/null; echo "@reboot $(realpath $first_boot_script)") | crontab -
+(crontab -l 2>/dev/null; echo "@reboot HOME=$HOME $(realpath $first_boot_script)") | crontab -
 
 apt update
 apt -y full-upgrade
@@ -32,6 +30,8 @@ rm /var/lib/dbus/machine-id
 ln -s /etc/machine-id /var/lib/dbus/machine-id
 
 logrotate -f /etc/logrotate.conf
+
+systemctl stop syslog.socket rsyslog.service
 
 service rsyslog stop
 
@@ -55,4 +55,4 @@ rm -rf /var/tmp/*
 apt clean
 apt autoremove
 
-rm $this_file
+rm $0
