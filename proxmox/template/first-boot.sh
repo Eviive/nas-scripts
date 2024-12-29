@@ -18,5 +18,5 @@ crontab -l | grep -v $0 | crontab -
 
 rm $0
 
-echo "\nFinished first boot, rebooting...\n"
+echo -e "\nFinished first boot, rebooting...\n"
 reboot
