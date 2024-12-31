@@ -33,3 +33,5 @@ echo -e "\nFinished resetting the node, the kubelet should be inactive...\n"
 systemctl status kubelet
 
 echo -e "\nYou can now re-join the cluster with 'kubeadm join'\n"
+
+rm $0
