@@ -31,10 +31,7 @@ iptables -t nat -F
 iptables -t mangle -F
 iptables -X
 
-echo -e "\nFinished resetting the control plane, the kubelet should be inactive...\n"
-systemctl status kubelet
-
-echo -e "\nYou can now re-initialize the cluster with 'kubeadm init' and 'kubeadm join'\n"
+echo "Finished resetting the control plane, you can now re-initialize the cluster with 'kubeadm init' and 'kubeadm join'"
 echo "kubeadm init --control-plane-endpoint=<endpoint> --node-name control-plane --pod-network-cidr=10.244.0.0/16"
 
 rm $0

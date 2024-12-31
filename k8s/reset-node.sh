@@ -28,9 +28,6 @@ iptables -t nat -F
 iptables -t mangle -F
 iptables -X
 
-echo -e "\nFinished resetting the node, the kubelet should be inactive...\n"
-systemctl status kubelet
-
-echo -e "\nYou can now re-join the cluster with 'kubeadm join'\n"
+echo "Finished resetting the node, you can now re-join the cluster with 'kubeadm join'"
 
 rm $0
