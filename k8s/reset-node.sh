@@ -21,7 +21,6 @@ rm -rf /etc/cni/net.d
 rm -rf /opt/cni/bin
 rm -rf /etc/kubernetes
 
-ip link delete cni0
 ip link delete flannel.1
 
 iptables -F
