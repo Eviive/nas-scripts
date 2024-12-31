@@ -28,6 +28,7 @@ iptables -t nat -F
 iptables -t mangle -F
 iptables -X
 
-echo "Finished resetting the node, you can now re-join the cluster with 'kubeadm join'"
+echo -e "\nFinished resetting the node, you can now re-join the cluster with 'kubeadm join'"
+echo "You can generate a join token with 'kubeadm token create --print-join-command'"
 
 rm $0
