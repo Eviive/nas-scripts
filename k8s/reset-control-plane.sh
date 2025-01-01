@@ -32,6 +32,6 @@ iptables -t mangle -F
 iptables -X
 
 echo -e "\nFinished resetting the control plane, you can now re-initialize the cluster with 'kubeadm init' and 'kubeadm join'"
-echo "kubeadm init --control-plane-endpoint=<endpoint> --node-name control-plane --pod-network-cidr=10.244.0.0/16"
+echo "kubeadm init --control-plane-endpoint=<endpoint> --node-name <node-name> --pod-network-cidr=10.244.0.0/16"
 
 rm $0
