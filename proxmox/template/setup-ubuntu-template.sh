@@ -13,7 +13,7 @@ fi
 
 cd ~
 
-first_boot_script=first-boot.sh
+first_boot_script="first-boot.sh"
 this_user=$SUDO_USER
 wget https://raw.githubusercontent.com/Eviive/nas-scripts/main/proxmox/template/$first_boot_script
 chmod +x $first_boot_script
@@ -57,4 +57,4 @@ apt autoremove
 
 rm $0
 
-echo -e "\nFinished setup, clean the history and power off the machine...\n"
+echo -e "\nFinished setup, clean the history and power off the machine\n"
