@@ -9,7 +9,7 @@ source .backup-config-env
 server_url="https://truenas.home.albertv.dev"
 api_key=$TRUENAS_SCALE_BACKUP_API_KEY
 secret_seed="true"
-backup_location="/mnt/slow-1/truenas-scale/backups/config"
+backup_location="/mnt/hdd-1/truenas-scale/backups/config"
 keep_last=10
 
 truenas_scale_version=`cat /etc/version | cut -d' ' -f1`
