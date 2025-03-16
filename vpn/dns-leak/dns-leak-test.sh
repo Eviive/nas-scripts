@@ -1,5 +1,9 @@
 #!/bin/bash
 
+set -uo pipefail
+trap 's=$?; echo "$0: Error on line "$LINENO": $BASH_COMMAND"; exit $s' ERR
+IFS=$'\n\t'
+
 api_domain="bash.ws"
 
 status_code=$(curl -s -I -X GET -o /dev/null -w "%{http_code}\n" "https://${api_domain}")
@@ -15,7 +19,7 @@ echo "Test ID: $test_id"
 echo ""
 for i in $(seq 1 20); do
     echo "Sending request to ex.${i}.${test_id}.${api_domain}..."
-    curl -s --connect-timeout 0.5 "https://ex.${i}.${test_id}.${api_domain}/css/z.css?_=$(date +%s%3N)" &> /dev/null
+    curl -s --connect-timeout 0.5 "https://ex.${i}.${test_id}.${api_domain}/css/z.css?_=$(date +%s%3N)" &> /dev/null || true
 done
 
 sleep 1
