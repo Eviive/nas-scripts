@@ -6,7 +6,7 @@ IFS=$'\n\t'
 
 id
 
-if [ `id -u` -ne 0 ]; then
+if [ "$(id -u)" -ne 0 ]; then
 	echo "This script must be run as root"
 	exit 1
 fi
@@ -34,4 +34,4 @@ iptables -X
 echo -e "\nFinished resetting the control plane, you can now re-initialize the cluster with 'kubeadm init' and 'kubeadm join'"
 echo "kubeadm init --control-plane-endpoint=<endpoint> --node-name <node-name> --pod-network-cidr=10.244.0.0/16"
 
-rm $0
+rm "$0"

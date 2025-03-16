@@ -6,18 +6,18 @@ IFS=$'\n\t'
 
 id
 
-if [ `id -u` -ne 0 ]; then
+if [ "$(id -u)" -ne 0 ]; then
 	echo "This script must be run as root"
 	exit 1
 fi
 
-cd ~
+cd ~ || exit
 
 first_boot_script="first-boot.sh"
 this_user=$SUDO_USER
 wget https://raw.githubusercontent.com/Eviive/nas-scripts/main/proxmox/template/$first_boot_script
 chmod +x $first_boot_script
-chown $this_user:$this_user $first_boot_script
+chown "$this_user":"$this_user" $first_boot_script
 
 (crontab -l 2>/dev/null; echo "@reboot HOME=$HOME $(realpath $first_boot_script)") | crontab -
 
@@ -55,6 +55,6 @@ rm -rf /var/tmp/*
 apt clean
 apt autoremove
 
-rm $0
+rm "$0"
 
 echo -e "\nFinished setup, clean the history and power off the machine\n"

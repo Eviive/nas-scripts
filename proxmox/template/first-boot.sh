@@ -6,7 +6,7 @@ IFS=$'\n\t'
 
 id
 
-if [ `id -u` -ne 0 ]; then
+if [ "$(id -u)" -ne 0 ]; then
 	echo "This script must be run as root"
 	exit 1
 fi
@@ -14,9 +14,9 @@ fi
 apt update
 apt -y full-upgrade
 
-crontab -l | grep -v $0 || true | crontab -
+crontab -l | grep -v "$0" || true | crontab -
 
-rm $0
+rm "$0"
 
 echo -e "\nFinished first boot, rebooting...\n"
 reboot

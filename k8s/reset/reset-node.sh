@@ -6,7 +6,7 @@ IFS=$'\n\t'
 
 id
 
-if [ `id -u` -ne 0 ]; then
+if [ "$(id -u)" -ne 0 ]; then
 	echo "This script must be run as root"
 	exit 1
 fi
@@ -31,4 +31,4 @@ iptables -X
 echo -e "\nFinished resetting the node, you can now re-join the cluster with 'kubeadm join'"
 echo "You can generate a join token with 'kubeadm token create --print-join-command'"
 
-rm $0
+rm "$0"
