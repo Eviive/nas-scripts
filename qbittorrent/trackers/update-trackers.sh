@@ -97,3 +97,5 @@ get_cookie
 generate_trackers_list
 
 set_application_preferences
+
+echo "Finished updating qBittorrent trackers"
