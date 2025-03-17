@@ -25,23 +25,23 @@ url_encode() {
 }
 
 get_cookie() {
-	echo "Logging in to qBittorrent..."
+  echo "Logging in to qBittorrent..."
 
-	if ! encoded_username=$(url_encode "$qbt_username"); then
-		echo "Error during URL encoding of username"
-		return 1
-	fi
+  if ! encoded_username=$(url_encode "$qbt_username"); then
+    echo "Error during URL encoding of username"
+    return 1
+  fi
 
-	if ! encoded_password=$(url_encode "$qbt_password"); then
-		echo "Error during URL encoding of password"
-		return 1
-	fi
+  if ! encoded_password=$(url_encode "$qbt_password"); then
+    echo "Error during URL encoding of password"
+    return 1
+  fi
 
-	qbt_cookie=$(curl "$qbt_host/api/v2/auth/login" \
-	  -fsS \
-		--header "Referer: $qbt_host" \
-		--cookie-jar - \
-		--data "username=${encoded_username}&password=${encoded_password}")
+  qbt_cookie=$(curl "$qbt_host/api/v2/auth/login" \
+    -fsS \
+    --header "Referer: $qbt_host" \
+    --cookie-jar - \
+    --data "username=${encoded_username}&password=${encoded_password}")
 }
 
 generate_trackers_list() {
@@ -80,9 +80,9 @@ set_application_preferences() {
   payload+='"}'
 
   if ! encoded_payload=$(url_encode "$payload"); then
-		echo "Error during URL encoding of password"
-		return 1
-	fi
+    echo "Error during URL encoding of password"
+    return 1
+  fi
 
   echo "$qbt_cookie" | curl "$qbt_host/api/v2/app/setPreferences" \
     -fsS \
