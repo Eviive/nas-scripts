@@ -64,7 +64,7 @@ generate_trackers_list() {
     exit 1
   fi
 
-  trackers_list=$(echo "$trackers_list" | sed -r '/^\s*$/d' | sort -u)
+  trackers_list=$(echo "$trackers_list" | sort -u | sed '1{/^$/d}' | sed 's/$/\n/')
 
   if [[ -z $trackers_list ]]; then
     echo "No trackers found. Aborting."
