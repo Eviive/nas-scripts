@@ -44,7 +44,7 @@ curl --no-progress-meter \
   -d '{"secretseed": '$secret_seed'}' \
   --output "$backup_path"
 
-if [[ -n "$last_backup_path" ]] && [[ $backup_path != "$last_backup_path" ]] && ! cmp "$backup_path" "$last_backup_path"; then
+if [[ -n "$last_backup_path" ]] && [[ $backup_path != "$last_backup_path" ]] && cmp -s "$backup_path" "$last_backup_path"; then
   echo "Config hasn't changed, exiting..."
   rm "$backup_path"
   exit
