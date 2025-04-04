@@ -18,7 +18,7 @@ backup_directory="$backup_location/$truenas_scale_version"
 
 mkdir -p "$backup_directory"
 
-if [ $secret_seed = true ]; then
+if [[ $secret_seed = true ]]; then
   backup_extension="tar"
 else
   backup_extension="db"
@@ -29,7 +29,7 @@ backup_path="$backup_directory/$backup_name"
 
 last_backup_name=$(find "$backup_directory" -mindepth 1 -printf "%f\n" | sort -n | tail -1)
 
-if [ -z "$last_backup_name" ]; then
+if [[ -z "$last_backup_name" ]]; then
   last_backup_path=""
 else
   last_backup_path="$backup_directory/$last_backup_name"
@@ -44,20 +44,20 @@ curl --no-progress-meter \
   -d '{"secretseed": '$secret_seed'}' \
   --output "$backup_path"
 
-if [[ -n "$last_backup_path" && $backup_path != "$last_backup_path" && ! $(cmp "$backup_path" "$last_backup_path") ]]; then
+if [[ -n "$last_backup_path" ]] && [[ $backup_path != "$last_backup_path" ]] && ! cmp "$backup_path" "$last_backup_path"; then
   echo "Config hasn't changed, exiting..."
   rm "$backup_path"
   exit
 fi
 
-if [ $keep_last -ne 0 ]; then
+if [[ $keep_last -ne 0 ]]; then
   number_of_files=$(find "$backup_directory" -mindepth 1 | wc -l)
 
-  if [ $keep_last -lt "$number_of_files" ]; then
+  if [[ $keep_last -lt "$number_of_files" ]]; then
     number_of_files_to_remove="$((number_of_files - keep_last))"
     echo "Removing $number_of_files_to_remove files in order to retain the last $keep_last backups..."
 
-    while [ $number_of_files_to_remove -gt 0 ]; do
+    while [[ $number_of_files_to_remove -gt 0 ]]; do
       file_to_remove=$(find "$backup_directory" -mindepth 1 -printf "%f\n" | sort -r | tail -1)
       echo "Removing $backup_directory/$file_to_remove..."
       rm "$backup_directory/$file_to_remove"

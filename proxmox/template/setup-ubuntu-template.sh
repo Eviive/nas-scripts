@@ -4,9 +4,7 @@ set -uo pipefail
 trap 's=$?; echo "$0: Error on line "$LINENO": $BASH_COMMAND"; exit $s' ERR
 IFS=$'\n\t'
 
-id
-
-if [ "$(id -u)" -ne 0 ]; then
+if [[ $(id -u) -ne 0 ]]; then
   echo "This script must be run as root"
   exit 1
 fi
@@ -35,17 +33,17 @@ systemctl stop syslog.socket rsyslog.service
 
 service rsyslog stop
 
-if [ -f /var/log/audit/audit.log ]; then
+if [[ -f /var/log/audit/audit.log ]]; then
     cat /dev/null > /var/log/audit/audit.log
 fi
-if [ -f /var/log/wtmp ]; then
+if [[ -f /var/log/wtmp ]]; then
     cat /dev/null > /var/log/wtmp
 fi
-if [ -f /var/log/lastlog ]; then
+if [[ -f /var/log/lastlog ]]; then
     cat /dev/null > /var/log/lastlog
 fi
 
-if [ -f /etc/udev/rules.d/70-persistent-net.rules ]; then
+if [[ -f /etc/udev/rules.d/70-persistent-net.rules ]]; then
     rm /etc/udev/rules.d/70-persistent-net.rules
 fi
 
