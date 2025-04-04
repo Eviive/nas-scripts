@@ -14,34 +14,16 @@ declare -a live_trackers_list_urls=(
   "https://newtrackon.com/api/stable"
 )
 
-url_encode() {
-  local string="${1}"
-
-  if command -v xxd >/dev/null 2>&1; then
-    printf '%s' "$string" | xxd -p | sed 's/\(..\)/%\1/g' | tr -d '\n'
-  else
-    jq -nr --arg s "$string" '$s|@uri'
-  fi
-}
-
 get_cookie() {
   echo "Logging in to qBittorrent..."
 
-  if ! encoded_username=$(url_encode "$qbt_username"); then
-    echo "Error during URL encoding of username"
-    return 1
-  fi
-
-  if ! encoded_password=$(url_encode "$qbt_password"); then
-    echo "Error during URL encoding of password"
-    return 1
-  fi
-
   qbt_cookie=$(curl "$qbt_host/api/v2/auth/login" \
-    -fsS \
+    -sSL \
     --header "Referer: $qbt_host" \
     --cookie-jar - \
-    --data "username=${encoded_username}&password=${encoded_password}")
+    --data-urlencode "username=$qbt_username" \
+    --data-urlencode "password=$qbt_password"
+  )
 }
 
 generate_trackers_list() {
@@ -50,8 +32,8 @@ generate_trackers_list() {
 
   for url in "${live_trackers_list_urls[@]}"; do
     echo "Fetching trackers from $url..."
-    new_trackers=$(curl -sS "$url")
-    if [[ $? -eq 0 && -n "$new_trackers" ]]; then
+
+    if new_trackers=$(curl -sSL "$url") && [[ -n "$new_trackers" ]]; then
       trackers_list+="$new_trackers"$'\n'
       all_failed=false
     else
@@ -59,12 +41,12 @@ generate_trackers_list() {
     fi
   done
 
-  if [[ $all_failed == true ]]; then
+  if [[ $all_failed = true ]]; then
     echo "All live tracker URLs failed. Aborting."
     exit 1
   fi
 
-  trackers_list=$(echo "$trackers_list" | sort -u | sed '1{/^$/d}' | sed 's/$/\n/')
+  trackers_list=$(echo "$trackers_list" | sort -u | sed -e '1{/^$/d}' -e 's/$/\n/')
 
   if [[ -z $trackers_list ]]; then
     echo "No trackers found. Aborting."
@@ -79,17 +61,12 @@ set_application_preferences() {
   payload+=$trackers_list
   payload+='"}'
 
-  if ! encoded_payload=$(url_encode "$payload"); then
-    echo "Error during URL encoding of password"
-    return 1
-  fi
-
   echo "$qbt_cookie" | curl "$qbt_host/api/v2/app/setPreferences" \
-    -fsS \
+    -sSL \
     -X POST \
     -H "Referer: $qbt_host" \
     -b - \
-    --data-raw "json=$encoded_payload"
+    --data-raw "json=$payload"
 }
 
 get_cookie
