@@ -22,7 +22,10 @@ get_cookie() {
     --header "Referer: $qbt_host" \
     --cookie-jar - \
     --data-urlencode "username=$qbt_username" \
-    --data-urlencode "password=$qbt_password"
+    --data-urlencode "password=$qbt_password" \
+    --retry-all-errors \
+    --retry 5 \
+    --retry-delay 2
   )
 }
 
