@@ -14,21 +14,6 @@ declare -a live_trackers_list_urls=(
   "https://newtrackon.com/api/stable"
 )
 
-get_cookie() {
-  echo "Logging in to qBittorrent..."
-
-  qbt_cookie=$(curl "$qbt_host/api/v2/auth/login" \
-    -sSL \
-    --header "Referer: $qbt_host" \
-    --cookie-jar - \
-    --data-urlencode "username=$qbt_username" \
-    --data-urlencode "password=$qbt_password" \
-    --retry-all-errors \
-    --retry 5 \
-    --retry-delay 2
-  )
-}
-
 generate_trackers_list() {
   trackers_list=""
   all_failed=true
@@ -57,6 +42,21 @@ generate_trackers_list() {
   fi
 }
 
+get_cookie() {
+  echo "Logging in to qBittorrent..."
+
+  qbt_cookie=$(curl "$qbt_host/api/v2/auth/login" \
+    -sSL \
+    --header "Referer: $qbt_host" \
+    --cookie-jar - \
+    --data-urlencode "username=$qbt_username" \
+    --data-urlencode "password=$qbt_password" \
+    --retry-all-errors \
+    --retry 5 \
+    --retry-delay 2
+  )
+}
+
 set_application_preferences() {
   echo "Setting trackers in qBittorrent..."
 
@@ -72,9 +72,9 @@ set_application_preferences() {
     --data-raw "json=$payload"
 }
 
-get_cookie
-
 generate_trackers_list
+
+get_cookie
 
 set_application_preferences
 
