@@ -19,7 +19,7 @@ rm -rf /etc/cni/net.d
 rm -rf /opt/cni/bin
 rm -rf /etc/kubernetes
 
-ip link delete flannel.1 | true
+ip link delete flannel.1 || true
 
 iptables -F
 iptables -t nat -F
