@@ -21,8 +21,8 @@ rm -rf /var/lib/dockershim
 rm -rf /etc/cni/net.d
 rm -rf /opt/cni/bin
 
-ip link delete cni0
-ip link delete flannel.1
+ip link delete cni0 || true
+ip link delete flannel.1 || true
 
 iptables -F
 iptables -t nat -F
